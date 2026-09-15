@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Bot Afiliados - Enviar Oferta",
+  "version": "1.0.0",
+  "description": "Envia a oferta da pagina atual (Mercado Livre/Amazon) pro seu bot de afiliados, sem digitar nada na mao.",
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.mercadolivre.com.br/*",
+        "*://*.amazon.com.br/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "http://127.0.0.1/*"
+  ]
+}
