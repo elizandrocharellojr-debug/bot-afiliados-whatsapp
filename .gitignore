@@ -1,0 +1,8 @@
+node_modules/
+.env
+data/
+auth/
+chrome-profile-python/
+chrome-profile-python2/
+edge-profile-python/
+*.log

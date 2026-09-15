@@ -1,0 +1,221 @@
+========================================================================
+ COMO SUBIR O BOT NO RAILWAY (teste gratis de 30 dias, sem cartao)
+========================================================================
+
+Isso aqui bota o bot rodando 24h num servidor na nuvem, sem precisar
+deixar seu notebook ligado. Leia com calma e va seguindo passo a passo -
+nao precisa entender tudo, so seguir a ordem.
+
+IMPORTANTE sobre o teste gratis: a Railway da US$5 de credito por 30 dias,
+sem pedir cartao pra comecar. Depois desse periodo (ou se o credito
+acabar antes), ela cobra pra continuar rodando (uns US$5/mes pra um bot
+como esse, ligado 24h). Se voce nao quiser continuar pagando, e so nao
+colocar cartao quando ela pedir - o bot para de rodar na nuvem, so isso
+(nada e cobrado sem voce autorizar).
+
+
+------------------------------------------------------------------------
+PASSO 1 - Preparar a "seed" (leva sua sessao ja logada pro servidor novo)
+------------------------------------------------------------------------
+Isso evita ter que escanear o QR code do WhatsApp de novo e logar de novo
+no Mercado Livre dentro do servidor.
+
+Na pasta do bot no seu PC (bot-afiliados), crie uma pasta chamada "seed"
+e copie pra dentro dela:
+
+  seed/
+    auth/                   <- copie a pasta "auth" inteira (sessao do WhatsApp)
+    data/                   <- copie a pasta "data" inteira (banco de promocoes)
+    ml-browser-perfil/      <- copie de dentro de:
+                               C:\Users\Pietro\AppData\Local\bot-afiliados-ml-browser
+                               (renomeie a copia pra "ml-browser-perfil" dentro da seed)
+
+Resumindo, dentro da pasta bot-afiliados voce vai ter uma pasta nova
+"seed" com essas 3 pastas dentro, copiadas (nao corte, so copie - as
+originais continuam no seu PC funcionando normal).
+
+Se voce pular esse passo, funciona igual, so que o bot vai pedir pra
+escanear o QR code de novo (aparece no "railway logs", passo 7) e vai
+pedir pra logar no Mercado Livre nos favoritos de novo.
+
+
+------------------------------------------------------------------------
+PASSO 2 - Criar a conta na Railway
+------------------------------------------------------------------------
+1. Va em https://railway.com e clique em "Login" / "Start a New Project"
+2. Entre com sua conta do GitHub ou Google (o que for mais facil)
+3. Nao vai pedir cartao nessa hora - so quando/se o teste acabar
+
+
+------------------------------------------------------------------------
+PASSO 3 - Instalar a ferramenta de linha de comando da Railway (CLI)
+------------------------------------------------------------------------
+No PowerShell do seu PC, dentro da pasta do bot (bot-afiliados), rode:
+
+  npm install -g @railway/cli
+
+Depois rode:
+
+  railway login
+
+Isso abre o navegador pra voce confirmar o login - confirme e volte pro
+PowerShell.
+
+
+------------------------------------------------------------------------
+PASSO 4 - Criar o projeto na Railway
+------------------------------------------------------------------------
+Ainda no PowerShell, dentro da pasta bot-afiliados, rode:
+
+  railway init
+
+Ele vai perguntar um nome pro projeto - pode ser qualquer coisa, tipo
+"oferta-ninja". Confirme.
+
+
+------------------------------------------------------------------------
+PASSO 5 - Criar o Volume (armazenamento que nao se perde a cada deploy)
+------------------------------------------------------------------------
+1. Va em https://railway.com/dashboard e abra o projeto que voce criou
+2. Clique no servico (vai ter sido criado com o nome da pasta ou do
+   projeto)
+3. Va na aba "Settings" desse servico, procure "Volumes" e clique em
+   "+ New Volume"
+4. Em "Mount Path" (caminho de montagem), coloque exatamente:
+
+     /app/storage
+
+5. Salve
+
+Sem isso, TUDO se perde a cada deploy novo (sessao do WhatsApp, login do
+Mercado Livre, banco de promocoes) - esse passo e obrigatorio.
+
+
+------------------------------------------------------------------------
+PASSO 6 - Configurar as variaveis de ambiente
+------------------------------------------------------------------------
+Ainda no servico, va na aba "Variables" e adicione as variaveis abaixo.
+O jeito mais rapido: clique em "Raw Editor" (editor bruto) e cole tudo de
+uma vez, depois ajuste os valores que tem "PREENCHA_AQUI".
+
+Abra o seu arquivo .env atual (na pasta do bot, com o Notepad) do lado
+pra copiar os valores que voce ja preencheu la. Os nomes sao os mesmos
+nos dois lugares.
+
+  # --- Copie estes valores do seu .env atual (mesmos nomes) ---
+  SHOPEE_APP_ID=PREENCHA_AQUI
+  SHOPEE_APP_SECRET=PREENCHA_AQUI
+  ML_SAMPLE_AFFILIATE_LINK=PREENCHA_AQUI
+  ML_CLIENT_ID=PREENCHA_AQUI
+  ML_CLIENT_SECRET=PREENCHA_AQUI
+  ML_REDIRECT_URI=PREENCHA_AQUI
+  ML_REFRESH_TOKEN=PREENCHA_AQUI
+  AMAZON_CREATORS_CLIENT_ID=PREENCHA_AQUI
+  AMAZON_CREATORS_CLIENT_SECRET=PREENCHA_AQUI
+  AMAZON_ASSOCIATE_TAG=PREENCHA_AQUI
+  AMAZON_MARKETPLACE=www.amazon.com.br
+  WHATSAPP_GROUP_JIDS=PREENCHA_AQUI
+  TELEGRAM_BOT_TOKEN=PREENCHA_AQUI
+  TELEGRAM_CANAL=PREENCHA_AQUI
+  DESTINO_POSTAGEM=telegram
+  MIN_DISCOUNT_PERCENT=20
+  DEDUPE_WINDOW_DAYS=30
+  POLL_INTERVAL_MINUTES=15
+  POSTS_PER_CYCLE_PER_SOURCE=3
+  DELAY_BETWEEN_POSTS_SECONDS=10
+  PY_GRUPOS_ORIGEM=PREENCHA_AQUI
+  PY_MEU_NUMERO=PREENCHA_AQUI
+  PY_APROVACAO_MANUAL=nao
+  PY_DELAY_ENTRE_POSTS_SEGUNDOS=10
+  ML_USAR_NAVEGADOR=sim
+
+  # --- Estas sao NOVAS, so pra rodar na Railway (nao existiam no seu .env) ---
+  PAINEL_TOKEN=escolha_uma_senha_forte_aqui
+  PAINEL_NA_REDE=sim
+  PAINEL_TUNEL_AUTOMATICO=nao
+
+Sobre as duas novas de cima:
+- PAINEL_TOKEN: invente uma senha (letras/numeros, sem espaco). Vai ser
+  pedida pra abrir o painel pela internet - sem ela, o link do painel
+  fica bloqueado por seguranca.
+- PAINEL_NA_REDE=sim: precisa ser "sim" na Railway (senao o painel nao
+  fica acessivel de fora do proprio servidor).
+- PAINEL_TUNEL_AUTOMATICO=nao: desliga o tunel do Cloudflare, que so
+  fazia sentido no seu PC - a Railway ja te da um endereco publico
+  proprio (passo 8).
+
+NAO precisa adicionar as variaveis DADOS_DIR, WHATSAPP_AUTH_DIR,
+ML_PERFIL_DIR, ML_NAVEGADOR_HEADLESS e ML_NAVEGADOR_CHANNEL - essas ja
+vem prontas dentro do Dockerfile, e' so pra Railway funcionar liso.
+
+
+------------------------------------------------------------------------
+PASSO 7 - Publicar (deploy)
+------------------------------------------------------------------------
+De volta no PowerShell, dentro da pasta bot-afiliados, rode:
+
+  railway up
+
+Isso empacota o projeto inteiro e sobe pra Railway. Pode demorar uns
+5-10 minutos na primeira vez (ele baixa o Chromium do navegador la
+dentro). Acompanhe o progresso ali mesmo no terminal.
+
+Quando terminar, acompanhe os logs do bot rodando com:
+
+  railway logs
+
+Confira se aparece algo tipo "Preparando servidor novo: copiei..." (sinal
+de que a seed funcionou) e depois as mensagens normais de conexao do
+WhatsApp. Se a seed NAO tiver sido preparada (passo 1 pulado), vai
+aparecer um QR code em texto no log - escaneie ele pelo WhatsApp do
+celular igual voce fez da primeira vez.
+
+
+------------------------------------------------------------------------
+PASSO 8 - Gerar o endereco publico do painel
+------------------------------------------------------------------------
+1. No dashboard da Railway, dentro do servico, va em "Settings" ->
+   "Networking"
+2. Clique em "Generate Domain" (gerar dominio)
+3. Escolha a porta 4545
+4. A Railway te da um endereco tipo:
+     https://seu-projeto-production.up.railway.app
+
+Pra abrir o painel, use:
+
+     https://seu-projeto-production.up.railway.app/painel?token=SUA_SENHA
+
+(troque SUA_SENHA pelo valor que voce colocou em PAINEL_TOKEN no passo 6)
+
+Esse link funciona de qualquer lugar, sem precisar do seu PC ligado nem
+do tunel do Cloudflare.
+
+
+------------------------------------------------------------------------
+PASSO 9 - Depois de confirmar que esta tudo funcionando
+------------------------------------------------------------------------
+Apague a pasta "seed" do projeto no seu PC (ela so serviu pra passar a
+sessao uma vez) e rode "railway up" de novo pra mandar essa limpeza -
+assim ela nao fica guardada em nenhum deploy futuro. O bot continua
+funcionando normal, porque a partir de agora quem guarda a sessao e o
+Volume persistente (passo 5), nao mais a pasta seed.
+
+O bot no seu PC (INICIAR.bat) continua existindo e funcionando do jeito
+que sempre funcionou - os dois podem coexistir, mas rodar os dois AO
+MESMO TEMPO conectados no mesmo numero de WhatsApp pode fazer a sessao
+cair de um lado ou do outro. O ideal e usar so um por vez: ou o do PC
+ligado, ou o da Railway.
+
+
+------------------------------------------------------------------------
+SE ALGO DER ERRADO
+------------------------------------------------------------------------
+- "railway logs" sempre mostra o que esta acontecendo em tempo real -
+  comece por ali.
+- Se o bot cair e reiniciar sozinho varias vezes, geralmente e falta de
+  alguma variavel obrigatoria no passo 6 - o log mostra qual.
+- Se o painel nao abrir: confira se voce gerou o dominio (passo 8) na
+  porta 4545, e se colocou o "?token=" certo na URL.
+- Qualquer duvida nesse processo, me chame de novo explicando em que
+  passo travou e o que apareceu no log/tela.
+========================================================================

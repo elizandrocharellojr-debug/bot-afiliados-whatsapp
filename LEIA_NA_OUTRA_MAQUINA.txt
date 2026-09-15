@@ -1,0 +1,104 @@
+==========================================================
+  LEVAR O BOT PRA OUTRA MAQUINA
+==========================================================
+
+Nao precisa editar NADA. A pasta se adapta sozinha ao novo
+computador, usuario e caminho.
+
+
+--- O QUE COPIAR ---
+
+Copie a pasta INTEIRA do projeto (pendrive, HD externo, nuvem) -
+incluindo o node_modules dessa vez (explico o motivo abaixo).
+
+Precisa vir junto (importante):
+   .env           <- suas credenciais e configuracoes
+   node_modules   <- ver aviso 3 mais abaixo (evita download travado)
+   auth           <- sessao do WhatsApp (evita escanear QR de novo)
+   src, scripts, index.js, package.json
+
+Se REALMENTE quiser copiar mais rapido e aceitar o risco de um
+download falhar na maquina nova (rede/antivirus mais chatos), da pra
+deixar o node_modules de fora - ele reinstala sozinho com "npm
+install". Mas se a internet da maquina nova nao for 100% confiavel,
+leve junto mesmo sendo a pasta maior.
+
+
+--- COMO SUBIR NA MAQUINA NOVA ---
+
+1. Instale o Node.js (se ainda nao tiver):
+      https://nodejs.org  -> versao LTS
+
+2. Abra a pasta do projeto e de DUPLO CLIQUE em:
+
+      INICIAR.bat
+
+   Ele faz tudo sozinho:
+     - confere a versao do Node
+     - instala as dependencias que faltarem (npm install)
+     - confere se tem o Microsoft Edge (usado pro Mercado Livre -
+       vem de fabrica no Windows, nao precisa baixar nada)
+     - confere o .env
+     - pede o QR code do WhatsApp, se for a primeira vez
+     - liga o bot (e o tunel do celular, na mesma janela)
+
+3. Pronto. O painel aparece no proprio terminal:
+      PAINEL DAS PROMOCOES (neste PC): http://127.0.0.1:4545/painel?t=...
+      PAINEL NO CELULAR (mesmo Wi-Fi): http://192.168.x.x:4545/painel?t=...
+
+
+--- PRA USAR O PAINEL NA RUA (dados moveis) ---
+
+Nao precisa de nada especial - o INICIAR.bat (a mesma janela de sempre)
+ja sobe o tunel sozinho. Procure no terminal a linha "PAINEL FORA DE
+CASA" - o endereco publico aparece ali (https://...trycloudflare.com),
+e o painel e esse endereco + /painel?t=SUA_SENHA
+
+
+==========================================================
+  TRES AVISOS IMPORTANTES
+==========================================================
+
+1) NAO rode o bot em duas maquinas ao mesmo tempo.
+   As duas usariam a mesma conta do WhatsApp e ficariam se
+   derrubando (foi o que causou "sessao encerrada" antes) -
+   e isso aumenta o risco de suspensao do numero. DESLIGUE o
+   bot NESTA maquina (Ctrl+C) antes de ligar na outra.
+
+2) O login do MERCADO LIVRE nao vem junto.
+   Ele fica salvo no perfil do Edge de cada maquina. Na
+   primeira promocao do Mercado Livre, uma janela do Edge
+   abre pedindo login - entre com calma (o bot espera ate 5
+   minutos) e depois fica salvo.
+
+3) Se levar o node_modules (recomendado - ver acima) e mesmo
+   assim o "npm run preparar" quiser baixar algo e travar/dar
+   erro de rede, o bot funciona normal do mesmo jeito - so essa
+   uma coisa especifica que nao instalou fica pendente. Nao é
+   preciso resolver na hora; me chame que a gente ajusta.
+
+
+==========================================================
+  SE PREFERIR FAZER NA MAO (sem o .bat)
+==========================================================
+
+Na pasta do projeto, no CMD:
+
+   npm run preparar         (instala e confere tudo)
+   npm run setup-whatsapp   (QR code - so na primeira vez)
+   npm start                (liga o bot)
+
+Isso funciona igual no Windows, Mac e Linux.
+
+
+==========================================================
+  O QUE NAO PRECISA MEXER
+==========================================================
+
+- .env: vai pronto (Shopee, Amazon, Mercado Livre, Telegram,
+  grupos, senha do painel). Nada a alterar.
+- data\bot.db: guarda o que ja foi postado, pra nao repetir
+  promocao. Pode copiar junto ou deixar criar do zero.
+- A senha do painel (PAINEL_TOKEN) continua a mesma.
+- O IP do painel no celular muda de casa/maquina, mas aparece
+  no terminal a cada "npm start".

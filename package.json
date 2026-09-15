@@ -1,0 +1,31 @@
+{
+  "name": "bot-afiliados",
+  "version": "1.0.0",
+  "description": "Bot que busca ofertas na Shopee, Mercado Livre e Amazon e posta automaticamente no grupo do WhatsApp com seu link de afiliado.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "preparar": "node scripts/preparar.js",
+    "setup-whatsapp": "node scripts/setup-whatsapp.js",
+    "adicionar-grupos": "node scripts/adicionar-grupos-origem.js",
+    "setup-mercadolivre": "node scripts/setup-mercadolivre.js",
+    "link-amazon": "node scripts/link-amazon.js",
+    "link-mercadolivre": "node scripts/link-mercadolivre.js",
+    "testar-ml": "node scripts/testar-ml.js",
+    "testar-telegram": "node scripts/testar-telegram.js",
+    "tunel": "cloudflared tunnel --url http://localhost:4545",
+    "start": "node index.js",
+    "dry-run": "node index.js --dry-run"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^7.0.0-rc13",
+    "cloudflared": "^0.7.3",
+    "node-cron": "^4.6.0",
+    "pino": "^10.3.1",
+    "playwright": "^1.61.1",
+    "qrcode-terminal": "^0.12.0"
+  }
+}

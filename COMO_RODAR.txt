@@ -1,0 +1,130 @@
+========================================
+  COMO RODAR O BOT (Oferta Ninja)
+========================================
+
+Abra o "Prompt de Comando" (CMD) e cole os comandos.
+
+
+--- 1) IR PRA PASTA DO BOT (sempre primeiro) ---
+
+cd C:\Users\jr\Desktop\bot-afiliados
+
+
+--- 2) LIGAR O BOT (uso normal do dia a dia) ---
+
+npm start
+
+  -> Espere aparecer:
+     "Leitor de grupos ativo, monitorando em tempo real: ..."
+     "PAINEL NO CELULAR (mesmo Wi-Fi): http://192.168.x.x:4545/painel?t=..."
+  -> Deixe essa janela do CMD ABERTA (fechar = desliga o bot).
+
+
+--- 3) USAR NO PC ---
+
+No navegador do PC:
+
+     http://127.0.0.1:4545/painel
+
+  -> Clique "Enviar pro WhatsApp" nas promocoes que quiser postar.
+
+
+========================================
+  USAR NO CELULAR (app na tela inicial)
+========================================
+
+O PC precisa estar LIGADO com o "npm start" rodando, e o celular
+no MESMO Wi-Fi da casa.
+
+PRIMEIRA VEZ:
+
+1. Rode "npm start" e procure no terminal a linha:
+      PAINEL NO CELULAR (mesmo Wi-Fi): http://192.168.x.x:4545/painel?t=2133bfffdc78
+
+2. Digite esse endereco COMPLETO (com o ?t=...) no Chrome do celular.
+   Dica: mande o endereco pra voce mesmo no WhatsApp e clique nele.
+   (A senha atual e: pnhqvqP1yGMedh-4G9g4HcYaz_WP99QM)
+
+3. No Chrome: menu (3 pontinhos) > "Adicionar a tela inicial".
+   Vai criar um icone "Oferta Ninja" que abre como aplicativo.
+
+DEPOIS DA PRIMEIRA VEZ:
+   Basta abrir o icone na tela inicial - a senha fica guardada.
+
+IMPORTANTE:
+- A senha (?t=2133bfffdc78) protege o painel: sem ela, ninguem no
+  Wi-Fi consegue postar no seu grupo. Nao compartilhe esse endereco.
+- Se o IP mudar (ex: reiniciou o roteador), rode "npm start" e pegue
+  o novo endereco no terminal.
+
+
+========================================
+  ACESSAR PELOS DADOS MOVEIS (fora de casa)
+========================================
+
+O endereco 192.168.x.x SO funciona no Wi-Fi de casa. Pra usar na rua
+(dados moveis), o proprio "npm start" JA sobe um "tunel" gratuito via
+Cloudflare sozinho, na MESMA janela - nao precisa abrir nada a mais.
+
+USAR (toda vez que for ficar fora):
+
+1. Ligue o bot normalmente (so uma janela):
+
+     cd C:\Users\jr\Desktop\bot-afiliados
+     npm start
+
+2. Procure no terminal, mais abaixo, a linha:
+
+     PAINEL FORA DE CASA (dados moveis): https://algum-nome-aleatorio.trycloudflare.com/painel?t=SENHA
+
+   Mande esse endereco pra voce mesmo no WhatsApp e abra no celular.
+   Pode "Adicionar a tela inicial" tambem.
+
+IMPORTANTE:
+- So essa UMA janela precisa ficar aberta, e o PC ligado.
+- O endereco do tunel MUDA toda vez que voce reinicia o bot (novo
+  "npm start" = novo endereco). Pegue o novo sempre que reiniciar.
+- NUNCA compartilhe esse endereco com a senha: com ele, qualquer um
+  posta no seu grupo. Se desconfiar que vazou, me avise que eu troco
+  a senha.
+- Se aparecer "Painel: acesso BLOQUEADO" no terminal, e alguem
+  tentando entrar sem a senha - a senha e longa, entao esta protegido.
+- Se quiser desligar esse tunel automatico (usar so no Wi-Fi de casa),
+  ponha PAINEL_TUNEL_AUTOMATICO=nao no .env.
+
+
+========================================
+  SE PEDIR QR CODE / A SESSAO CAIU
+========================================
+
+So use isto se, ao rodar "npm start", ele pedir pra escanear
+o QR de novo OU aparecer "sessao encerrada".
+
+cd C:\Users\jr\Desktop\bot-afiliados
+rmdir /s /q auth
+npm run setup-whatsapp
+
+  -> Escaneie o QR com o numero que le os grupos.
+  -> Quando aparecer a lista de grupos, escolha o "Oferta Ninja".
+  -> Depois rode:
+
+npm start
+
+ATENCAO - erro "codigo 405":
+  Significa bloqueio TEMPORARIO do WhatsApp por muitas tentativas.
+  PARE tudo, espere 30-60 minutos SEM tentar, e rode UMA vez so.
+  Insistir aumenta o tempo do bloqueio.
+
+ATENCAO - trocou de numero:
+  Cada numero esta em grupos diferentes. Se aparecer "nao encontrei
+  estes grupos", me avise que eu ajusto os nomes no arquivo .env.
+
+
+========================================
+  OBSERVACOES
+========================================
+
+- O bot posta no grupo SO quando voce clica "Enviar" no painel
+  (modo manual = sem risco pro numero).
+- O Telegram (@OfertadeNinja) recebe TUDO automatico, na hora.
+- Pra desligar o bot: feche a janela do CMD, ou aperte Ctrl + C nela.

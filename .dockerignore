@@ -1,0 +1,22 @@
+# Nao entra na imagem do Railway - continua so no seu PC, ou vai pro Volume
+# persistente (nunca dentro da imagem, que fica visivel em builds/logs).
+#
+# ATENCAO: "seed/" fica DE FORA de proposito (nao esta na lista abaixo) - e'
+# a pasta que leva a sessao do WhatsApp/Mercado Livre pro 1o deploy (ver
+# DEPLOY_RAILWAY.txt). Depois que o Volume estiver populado, APAGUE a pasta
+# seed/ do projeto - assim ela some dos deploys seguintes sozinha.
+node_modules
+auth
+data
+bot.log
+chrome_debug.log
+chromedriver.log
+chrome-profile-python
+chrome-profile-python2
+teste-chrome-profile
+__pycache__
+.env
+.git
+*.pyc
+npm
+rmdir

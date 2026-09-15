@@ -1,0 +1,22 @@
+# O que NAO sobe pro Railway no "railway up" (mesma logica do .dockerignore,
+# mas essa aqui controla o UPLOAD em si - antes mesmo de chegar no Docker).
+#
+# ATENCAO: os caminhos com "/" na frente valem so pra pasta raiz do projeto -
+# de proposito, pra NAO pegar "seed/auth" nem "seed/data" (essas sim devem
+# subir, se voce criar a pasta seed/ - ver DEPLOY_RAILWAY.txt).
+/node_modules
+/.git
+/auth
+/data
+/chrome-profile-python
+/chrome-profile-python2
+/teste-chrome-profile
+/bot.log
+/bot.log.old
+/chrome_debug.log
+/chromedriver.log
+/npm
+/rmdir
+/__pycache__
+*.pyc
+/.env
